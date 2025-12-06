@@ -1,6 +1,6 @@
 // ------------------- SUPABASE SETUP -------------------
-const SUPABASE_URL = 'https://rbvrcetionhmbfrvnzfl.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_v2hTmxnfr1Uybmy4U5viGw_HF8eNQru';
+const SUPABASE_URL = 'https://ofqrejletghhwaozpgpo.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_AwqYo5KQuGXhMO14lIZinw_j8BexXG-';
 const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ------------------- SHELF ID -------------------
@@ -16,32 +16,12 @@ document.querySelectorAll(".menu-toy").forEach(menuToy => {
     const clone = menuToy.cloneNode(true);
     clone.className = "placed-toy";
 
+    // Default position
     clone.style.left = "100px";
-    clone.style.top = "200px";
+    clone.style.top = "100px";
 
+    // Make draggable
     makeDraggable(clone);
-
-    // Add messages (locked until 12/25/25)
-    clone.addEventListener("dblclick", () => {
-      const now = new Date();
-      const unlockDate = new Date(2025, 11, 25); // Dec 25, 2025
-
-      if (now < unlockDate) {
-        alert("Messages can only be added starting on December 25, 2025!");
-        return;
-      }
-
-      const msg = prompt("Write a message for this toy:");
-      if(msg) {
-        let msgDiv = clone.querySelector(".toy-msg");
-        if(!msgDiv) {
-          msgDiv = document.createElement("div");
-          msgDiv.className = "toy-msg";
-          clone.appendChild(msgDiv);
-        }
-        msgDiv.innerText = msg;
-      }
-    });
 
     document.querySelector("#shelf-area").appendChild(clone);
     placedToys.push(clone);
@@ -92,12 +72,10 @@ function makeDraggable(el) {
 function getToysArray() {
   const toysArray = [];
   document.querySelectorAll(".placed-toy").forEach(toy => {
-    const msgDiv = toy.querySelector(".toy-msg");
     toysArray.push({
       src: toy.src.split("/").pop(),
       x: parseInt(toy.style.left),
-      y: parseInt(toy.style.top),
-      message: msgDiv ? msgDiv.innerText : ""
+      y: parseInt(toy.style.top)
     });
   });
   return toysArray;
@@ -139,36 +117,38 @@ async function loadShelf(id) {
     clone.style.width = "70px";
     clone.style.height = "70px";
 
-    // Add message if exists
-    if(t.message) {
-      const msgDiv = document.createElement("div");
-      msgDiv.className = "toy-msg";
-      msgDiv.innerText = t.message;
-      clone.appendChild(msgDiv);
-    }
-
     makeDraggable(clone);
     shelfArea.appendChild(clone);
   });
 }
 
-// Load existing shelf
+// Load shelf if exists
 if(shelfId) loadShelf(shelfId);
 
-// ------------------- CHRISTMAS TIMER -------------------
+// ------------------- SHARE SHELF -------------------
+document.querySelector("#share-shelf").addEventListener("click", () => {
+  const url = `${window.location.origin}?shelf=${shelfId}`;
+  navigator.clipboard.writeText(url);
+  alert("Link copied! Share your shelf:\n" + url);
+});
+
+// ------------------- CHRISTMAS COUNTDOWN -------------------
 function updateTimer() {
   const now = new Date();
-  const christmas = new Date(now.getFullYear(), 11, 25);
-  if(now > christmas) christmas.setFullYear(now.getFullYear() + 1);
+  const xmas = new Date("December 25, 2025 00:00:00");
+  const diff = xmas - now;
 
-  const diff = christmas - now;
+  if(diff < 0) {
+    document.getElementById("timer").innerText = "Merry Christmas!";
+    return;
+  }
+
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
+  const hours = Math.floor((diff/(1000*60*60))%24);
+  const minutes = Math.floor((diff/(1000*60))%60);
+  const seconds = Math.floor((diff/1000)%60);
 
-  document.getElementById("timer").innerText =
-    `${days}d ${hours}h ${minutes}m ${seconds}s until Christmas`;
+  document.getElementById("timer").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 setInterval(updateTimer, 1000);
