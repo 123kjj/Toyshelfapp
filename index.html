@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toy Shelf</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decorate Your Shelf</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="shelf-area">
-    <img id="shelf-bg" src="public/assets/background.png" alt="Shelf Background">
-</div>
+  <!-- Christmas Timer -->
+  <div id="timer"></div>
 
-<div id="toy-menu">
-    <img class="toy" src="public/assets/bear.png">
-    <img class="toy" src="public/assets/croc.png">
-    <img class="toy" src="public/assets/deer.png">
-    <img class="toy" src="public/assets/dino.png">
-    <img class="toy" src="public/assets/duckglobe.png">
-    <img class="toy" src="public/assets/labubu.png">
-    <img class="toy" src="public/assets/nutcracker.png">
-    <img class="toy" src="public/assets/penguin.png">
-    <img class="toy" src="public/assets/snowglobe.png">
-    <img class="toy" src="public/assets/tree.png">
-</div>
+  <!-- Shelf Container -->
+  <div id="shelf-container">
+    <img id="shelf-bg" src="assets/shelf-bg.png" alt="Shelf background">
+    <div id="shelf-area"></div>
+  </div>
 
-<script src="script.js"></script>
+  <!-- Toy Menu -->
+  <div id="toy-menu">
+    <img src="assets/bear.png" class="menu-toy">
+    <img src="assets/dino.png" class="menu-toy">
+    <img src="assets/deer.png" class="menu-toy">
+    <img src="assets/croc.png" class="menu-toy">
+    <img src="assets/duckglobe.png" class="menu-toy">
+    <img src="assets/labubu.png" class="menu-toy">
+    <img src="assets/nutcracker.png" class="menu-toy">
+    <img src="assets/penguin.png" class="menu-toy">
+    <img src="assets/snowglobe.png" class="menu-toy">
+    <img src="assets/tree.png" class="menu-toy">
+  </div>
+
+  <!-- Shelf Name and Buttons -->
+  <input type="text" id="shelf-name" placeholder="Shelf Name">
+  <button id="save-shelf">Save Shelf</button>
+  <button id="share-shelf">Share Shelf</button>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.29.0/dist/supabase.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
